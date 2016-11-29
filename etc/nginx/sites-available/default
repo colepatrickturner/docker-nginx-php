@@ -1,0 +1,14 @@
+server {
+  listen      *:80;
+  listen      *:81 http2 proxy_protocol; ## Needed when behind HAProxy with SSL termination + HTTP/2 support
+  listen      *:443 ssl http2;
+
+  ssl_certificate       /etc/nginx/ssl/dummy.crt;
+  ssl_certificate_key   /etc/nginx/ssl/dummy.key;
+
+  root        /app/src;
+  index       index.php index.html index.htm;
+
+  include     /etc/nginx/conf.d/*.conf;
+
+}
