@@ -21,6 +21,3 @@ make install
 # Enable extension
 echo "extension=v8js.so" >> /etc/php/7.0/mods-available/v8js.ini
 phpenmod v8js
-
-# Restart PHP
-sv restart php-fpm

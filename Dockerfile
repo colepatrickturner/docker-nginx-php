@@ -32,12 +32,19 @@ RUN \
   libpspell-dev \
   libicu-dev \
   librecode-dev \
-  snmp
+  snmp \
+  git
+
+# LOGS
+RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log && \
+    ln -sf /dev/stderr /var/log/php.log
 
 # NGINX
 RUN \
   apt-get install -y nginx && \
   chown -R www-data:www-data /var/lib/nginx
+
 
 # Dummy SSL certificates
 RUN \
@@ -68,10 +75,12 @@ RUN \
   php7.0-recode \
   php7.0-snmp \
   php7.0-tidy \
-  php7.0-dev
+  php7.0-dev \
+  php7.0-mbstring \
+  php7.0-curl
 
 RUN mkdir -p /etc/php/7.0/fpm/addons.d
-RUN touch /var/log/php.log && ls -l /var/log
+RUN touch /var/log/php.log
 
 # Yarn
 RUN apt-get install -y yarn
@@ -103,3 +112,4 @@ RUN echo export TERM=xterm >> ~/.bashrc
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 80
+WORKDIR /app/src
